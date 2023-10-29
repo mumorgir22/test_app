@@ -22,7 +22,9 @@ logger = logging.getLogger(__name__)
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    data = json.loads(update.message.text)
+    nonBreakSpace = u'\xa0'
+    json_data = update.message.text.replace(nonBreakSpace, " ")
+    data = json.loads(json_data)
     dt_from = data.get("dt_from")
     dt_upto = data.get("dt_upto")
     group_type = data.get("group_type")
