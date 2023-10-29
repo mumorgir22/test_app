@@ -1,5 +1,3 @@
-import asyncio
-
 import pymongo
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -49,6 +47,10 @@ async def aggregate_salaries(dt_from, dt_upto, group_type):
         total_salary = sum(item["total_salary"] for item in result)
         dataset.append(total_salary)
         labels.append(current_date.isoformat())
+        if group_type == "hour" and current_date == dt_upto:
+            dataset[-1] = 0
+        if group_type == "day" and current_date == dt_upto:
+            dataset[-1] = 0
         result = {"dataset": dataset, "labels": labels}
         current_date = next_date
     client.close()

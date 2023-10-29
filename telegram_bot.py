@@ -22,14 +22,17 @@ logger = logging.getLogger(__name__)
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    nonBreakSpace = u'\xa0'
-    json_data = update.message.text.replace(nonBreakSpace, " ")
-    data = json.loads(json_data)
-    dt_from = data.get("dt_from")
-    dt_upto = data.get("dt_upto")
-    group_type = data.get("group_type")
-    answer = await aggregate_salaries(dt_from, dt_upto, group_type)
-    await update.message.reply_text(answer)
+    if update.message and update.message.text:
+        nonBreakSpace = "\xa0"
+        json_data = update.message.text.replace(nonBreakSpace, " ")
+        data = json.loads(json_data)
+        dt_from = data.get("dt_from")
+        dt_upto = data.get("dt_upto")
+        group_type = data.get("group_type")
+        answer = await aggregate_salaries(dt_from, dt_upto, group_type)
+        await update.message.reply_text(answer)
+    else:
+        print("Empty Data")
 
 
 def main() -> None:
