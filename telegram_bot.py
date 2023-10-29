@@ -23,7 +23,10 @@ logger = logging.getLogger(__name__)
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     data = json.loads(update.message.text)
-    answer = await aggregate_salaries(data.get("dt_from"), data.get("dt_upto"), data.get("group_type"))
+    dt_from = data.get("dt_from")
+    dt_upto = data.get("dt_upto")
+    group_type = data.get("group_type")
+    answer = await aggregate_salaries(dt_from, dt_upto, group_type)
     await update.message.reply_text(answer)
 
 
